@@ -23,7 +23,7 @@ function readPlain(readForm) {
         })
         .on('end', () => {
             console.log('CSV file successfully processed');
-            saveToFile(users, outputFile)
+            return saveToFile(users, outputFile)
         });
 }
 
@@ -49,7 +49,7 @@ function saveToFile(dataToSave, outputFile) {
     file.end();
     file.on("finish", () => {
         console.log('JSON file successfully created and populated with the passed data');
-        readJsonFile()
+        return readJsonFile()
     }); //calling the readJsonFile function when finishing populating the file with the objects
 }
 
