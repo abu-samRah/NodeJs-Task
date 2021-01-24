@@ -1,7 +1,7 @@
 const fs = require('fs')
 const csv = require('csv-parser');
 
-let readForm = "MOCK_DATA.csv" // the file that the data will be read from.
+let readFrom = "MOCK_DATA.csv" // the file that the data will be read from.
 let outputFile = "output.json" // the file that the data will be written to.
 
 /*
@@ -9,14 +9,14 @@ Desc: This function is responsbile for reading the data from the readFrom file, 
 save it to an array, and then calls the saveToFile function.
 Args: readFrom=> contains the file name to read the data from.
 */
-function readPlain(readForm) {
+function readPlain(readFrom) {
     let users = []
         /* 
         Here, we create a readStream using the fs module, pipe it into the csv object that will then 
         fire the data event each time a new row from the CSV file is processed. The end event is triggered 
         when all the rows from the CSV file are processed and we log a short message to the console to indicate that.
         */
-    fs.createReadStream(readForm)
+    fs.createReadStream(readFrom)
         .pipe(csv())
         .on('data', (row) => {
             users.push(row);
@@ -58,11 +58,11 @@ Desc: This function is responsbile for reading the crerated file and logs all th
 Args: None
 */
 function readJsonFile() {
-    fs.readFile('output.json', 'utf8', (err, dataRow) => {
+    fs.readFile(outputFile, 'utf8', (err, data) => {
         if (err) throw err
-        let user = JSON.parse(dataRow)
+        let user = JSON.parse(data)
         console.log(user);
     });
 }
 
-readPlain(readForm)
+readPlain(readFrom)
