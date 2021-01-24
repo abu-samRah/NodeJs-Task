@@ -34,17 +34,14 @@ Args: dataToSave=> an array containig the users data to save, outputFile=> conta
 */
 function saveToFile(dataToSave, outputFile) {
     let file = fs.createWriteStream(outputFile);
+
     file.on('error', function(err) { console.log(err) });
     file.write('[' + '\n') // addding the beginning of the json file
 
     // loops over the array objects and writes them to the file 
-    dataToSave.forEach(function(v, idx, array) {
-        if (idx === array.length - 1) {
-            file.write(JSON.stringify(v) + '\n');
-        } else {
-            file.write(JSON.stringify(v) + ',' + '\n');
-        }
-    });
+    file.write(dataToSave.map(JSON.stringify).join(",\n"))
+
+
     file.write(']') // addding the ending of the json file
     file.end();
     file.on("finish", () => {
